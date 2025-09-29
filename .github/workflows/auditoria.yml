@@ -1,0 +1,37 @@
+name: Auditoria de permisos de Usuarios
+
+on:
+  workflow_dispatch:
+
+jobs:
+  audit-users:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Crear archivo CSV inicial
+        run: |
+          echo "username,rol" > users.csv
+
+      - name: Obtener miembros del team Lider Técnico
+        run: |
+          curl -s -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.ORG_ADMIN_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/orgs/${{ github.repository_owner }}/teams/lider-tecnico/members \
+            | jq -r '.[] | "\(.login),lider_tecnico"' >> users.csv
+
+      - name: Obtener miembros del team Developer
+        run: |
+          curl -s -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.ORG_ADMIN_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/orgs/${{ github.repository_owner }}/teams/developer/members \
+            | jq -r '.[] | "\(.login),developer"' >> users.csv
+
+      - name: Subir CSV como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: reporte-auditoria
+          path: users.csv
