@@ -24,9 +24,9 @@ jobs:
         id: set_team
         run: |
           if [ "${{ github.event.inputs.rol }}" = "lider_tecnico" ]; then
-            echo "TEAM_ID=xxx" >> $GITHUB_ENV
+            echo "TEAM_ID=14364579" >> $GITHUB_ENV
           elif [ "${{ github.event.inputs.rol }}" = "developer" ]; then
-            echo "TEAM_ID=yyyy" >> $GITHUB_ENV
+            echo "TEAM_ID=14364581" >> $GITHUB_ENV
           else
             echo "Rol no válido"
             exit 1
