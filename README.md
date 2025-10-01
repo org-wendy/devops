@@ -175,7 +175,3 @@ usuario3,member
 
 ```
 
----
-
-¿Quieres que además te agregue el bloque para **publicar automáticamente `reporte_miembros.csv` como artifact en cada ejecución** para que se pueda descargar desde la interfaz de GitHub Actions sin revisar logs?
-```
